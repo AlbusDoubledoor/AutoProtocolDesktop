@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 
 namespace AutoProtocol.EventMVVM
 {
-    class EventViewModel : INotifyPropertyChanged, IErrorActionConsumer, IFileExportProvidable, IFileImportProvidable
+    class EventViewModel : INotifyPropertyChanged, IErrorActionConsumer, IFileExportProvidable, IFileImportProvidable, IConfirmProvidable
     {
         private Event _event;
         private Participant _selectedParticipant;
@@ -48,6 +48,16 @@ namespace AutoProtocol.EventMVVM
                 return ProvideFileImport.Invoke(filter);
             }
             return "";
+        }
+
+        public Func<string,bool> ProvideConfirm { get; set; }
+        public bool RequestConfirm(string confirmation)
+        {
+            if (ProvideConfirm != null)
+            {
+                return ProvideConfirm.Invoke(confirmation);
+            }
+            return false;
         }
 
         public Participant SelectedParticipant
@@ -140,6 +150,16 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        public int LapsCount
+        {
+            get => _event.LapsCount;
+            set
+            {
+                _event.LapsCount = value;
+                OnPropertyChanged();
+            }
+        }
+
         public EventViewModel()
         {
             this.Event = new Event { Name = "New Event" };
@@ -198,11 +218,7 @@ namespace AutoProtocol.EventMVVM
                             int removeIndex = Participants.IndexOf(SelectedParticipant);
                             Participants.Remove(SelectedParticipant);
 
-                            if (Participants.Count > 1)
-                            {
-                                SelectedParticipant = removeIndex > (Participants.Count - 1) ? Participants[Participants.Count - 1] : Participants[removeIndex];
-                            }
-
+                            SelectedParticipant = removeIndex > (Participants.Count - 1) ? Participants[Participants.Count - 1] : Participants[removeIndex];
                         }
                     }));
             }
@@ -224,19 +240,22 @@ namespace AutoProtocol.EventMVVM
                                 DoErrorAction(localizedErrorMsg);
                                 return;
                             }
+                            int removeIndex = CheckPoints.IndexOf(SelectedCheckPoint);
                             CheckPoints.Remove(SelectedCheckPoint);
+
+                            SelectedCheckPoint = removeIndex > (CheckPoints.Count - 1) ? CheckPoints[CheckPoints.Count - 1] : CheckPoints[removeIndex];
                         }
                     }));
             }
         }
 
-        private RelayCommand _exportEventConfigurationCommand;
+        private RelayCommand _exportConfigurationCommand;
         public RelayCommand ExportConfigurationCommand
         {
             get
             {
-                return _exportEventConfigurationCommand ??
-                    (_exportEventConfigurationCommand = new RelayCommand(obj =>
+                return _exportConfigurationCommand ??
+                    (_exportConfigurationCommand = new RelayCommand(obj =>
                     {
                         try
                         {
@@ -244,8 +263,13 @@ namespace AutoProtocol.EventMVVM
                             string localizedFilter = Application.Current.FindResource(R.FILE_FILTER__EVENT).ToString();
                             string filter = $"{localizedFilter} (*{fileExtension})|*{fileExtension}";
                             string fileName = RequestFileExport(filter);
-                            EventConfiguration writer = new EventConfiguration(_event);
-                            writer.WriteFile(fileName);
+
+                            if (fileName.Length == 0) return;
+
+                            using (var eventConfiguration = new EventConfiguration(_event))
+                            {
+                                eventConfiguration.Write(fileName);
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -254,6 +278,61 @@ namespace AutoProtocol.EventMVVM
                         }
                     }
                     ));
+            }
+        }
+
+        private RelayCommand _importConfigurationCommand;
+        public RelayCommand ImportConfigurationCommand
+        {
+            get
+            {
+                return _importConfigurationCommand ??
+                    (_importConfigurationCommand = new RelayCommand(obj =>
+                    {
+                        try
+                        {
+                            string fileExtension = EventConfiguration.FILE_EXTENSION;
+                            string localizedFilter = Application.Current.FindResource(R.FILE_FILTER__EVENT).ToString();
+                            string filter = $"{localizedFilter} (*{fileExtension})|*{fileExtension}";
+                            string fileName = RequestFileImport(filter);
+
+                            if (fileName.Length == 0) return;
+
+                            using (var eventConfiguration = new EventConfiguration(fileName))
+                            {
+                                this.Event = eventConfiguration.Event;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            string localizedErrorMsg = Application.Current.FindResource(R.ERRORS__EXPORT_CONFIGURATION).ToString();
+                            DoErrorAction(String.Format(localizedErrorMsg, ex.Message));
+                        }
+                    }
+                    ));
+            }
+        }
+
+        private bool _isConfigurationApplied = false;
+        public bool IsConfigurationApplied { 
+            get => _isConfigurationApplied; 
+            set
+            {
+                _isConfigurationApplied = value;
+                OnPropertyChanged();
+            } 
+        }
+
+        private RelayCommand _applyConfigurationCommand;
+        public RelayCommand ApplyConfigurationCommand
+        {
+            get
+            {
+                return _applyConfigurationCommand ??
+                    (_applyConfigurationCommand = new RelayCommand(obj =>
+                    {
+                        IsConfigurationApplied = RequestConfirm("После применения, конфигурацию нельзя будет изменить. Продолжить?");
+                    }));
             }
         }
 

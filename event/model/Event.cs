@@ -13,16 +13,30 @@ namespace AutoProtocol.EventMVVM
         private string _name;
         private int _autoSyncDelay = 1;
         private int _manualSyncDelay = 10;
+        private int _lapsCount = 1;
         private static readonly int EventNameMaxLength = 128;
 
         public HashSet<Participant> Participants { get; } = new HashSet<Participant>();
         public HashSet<CheckPoint> CheckPoints { get; } = new HashSet<CheckPoint>();
         
+        public int LapsCount
+        {
+            get => _lapsCount;
+            set
+            {
+                if (value <= 0) return;
+
+                _lapsCount = value;
+                OnPropertyChanged();
+            }
+        }
         public int AutoSyncDelay
         {
             get => _autoSyncDelay;
             set
             {
+                if (value <= 0) return;
+
                 _autoSyncDelay = value;
                 OnPropertyChanged();
             }
@@ -33,10 +47,15 @@ namespace AutoProtocol.EventMVVM
             get => _manualSyncDelay;
             set
             {
+                if (value <= 0) return;
+
                 _manualSyncDelay = value;
                 OnPropertyChanged();
             }
         }
+
+        public int MaxParticipant { get => Participants.Count; }
+        public int MaxCheckPoint { get => CheckPoints.Count;  }
 
         public string Name
         {

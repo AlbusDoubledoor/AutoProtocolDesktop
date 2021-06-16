@@ -26,30 +26,9 @@ namespace AutoProtocol.EventMVVM
             DataContext = _eventViewModel;
 
             _eventViewModel.ErrorAction = (errorMessage) => MessageBox.Show(errorMessage, FindResource(R.DLG_TITLE__EVENT_ERROR).ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
-            _eventViewModel.ProvideFileExport = BasicFileExport;
-            _eventViewModel.ProvideFileImport = BasicFileImport;
-        }
-
-        private string BasicFileExport(string filter)
-        {
-            var exportDialog = new SaveFileDialog();
-            exportDialog.Filter = filter;
-            if (exportDialog.ShowDialog() == true)
-            {
-                return exportDialog.FileName;
-            }
-            return "";
-        }
-
-        private string BasicFileImport(string filter)
-        {
-            var importDialog = new SaveFileDialog();
-            importDialog.Filter = filter;
-            if (importDialog.ShowDialog() == true)
-            {
-                return importDialog.FileName;
-            }
-            return "";
+            _eventViewModel.ProvideFileExport = BasicDialogs.FileExport;
+            _eventViewModel.ProvideFileImport = BasicDialogs.FileImport;
+            _eventViewModel.ProvideConfirm = BasicDialogs.Confirm;
         }
 
         public bool SaveCommand_Executed_Wrapper(object sender, ExecutedRoutedEventArgs e, String savePath)

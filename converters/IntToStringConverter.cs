@@ -4,10 +4,13 @@ using System.Globalization;
 using System.Text;
 using System.Windows.Data;
 
-namespace AutoProtocol
+namespace AutoProtocol.Converters
 {
+    [ValueConversion(typeof(int), typeof(string))]
     public class IntToStringConverter : IValueConverter
     {
+        #region IValueConverter Members
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value.ToString();
@@ -18,5 +21,7 @@ namespace AutoProtocol
             int ret = 0;
             return int.TryParse((string)value, out ret) ? ret : 0;
         }
+
+        #endregion
     }
 }

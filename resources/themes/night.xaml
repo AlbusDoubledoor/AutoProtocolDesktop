@@ -1572,7 +1572,7 @@
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background" TargetName="Border" Value="{DynamicResource DisabledBackgroundBrush}" />
                 <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource DisabledBorderBrush}" />
-                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

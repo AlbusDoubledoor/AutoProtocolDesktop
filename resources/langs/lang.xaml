@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:AutoProtocol.resources"
+                    xmlns:global="clr-namespace:AutoProtocol"
+					xmlns:v="clr-namespace:System;assembly=mscorlib">
+    <v:String x:Key="APP_TITLE">AutoProtocol</v:String>
+    <v:String x:Key="MENU_ITEM__LANGUAGE">Language</v:String>
+    <v:String x:Key="MENU_ITEM__THEME">Theme</v:String>
+    <v:String x:Key="MENU_ITEM__EXIT">Exit</v:String>
+
+    <v:String x:Key="MENU_ITEM__EVENT">Event</v:String>
+    <v:String x:Key="MENU_ITEM__EVENT__NEW">New</v:String>
+    <v:String x:Key="MENU_ITEM__EVENT__LOAD">Load</v:String>
+    <v:String x:Key="MENU_ITEM__EVENT__SAVE">Save</v:String>
+    <v:String x:Key="MENU_ITEM__EVENT__CLOSE">Close</v:String>
+
+    <v:String x:Key="THEME_HEADER__DAY">Day</v:String>
+    <v:String x:Key="THEME_HEADER__NIGHT">Night</v:String>
+
+    <v:String x:Key="{x:Static global:R.FILE_FILTER__EVENT}">Event file</v:String>
+
+    <v:String x:Key="{x:Static global:R.DLG_MSG__SAVE_ERROR}">Couldn't save an event file {0}</v:String>
+    <v:String x:Key="{x:Static global:R.DLG_MSG__LOAD_ERROR}">Couldn't load an event file {0}</v:String>
+    <v:String x:Key="{x:Static global:R.DLG_TITLE__SAVE_ERROR}">Error on saving</v:String>
+    <v:String x:Key="{x:Static global:R.DLG_TITLE__LOAD_ERROR}">Error on loading</v:String>
+    <v:String x:Key="{x:Static global:R.DLG_TITLE__EVENT_ERROR}">Event error</v:String>
+
+    <v:String x:Key="{x:Static global:R.ERRORS__LAST_PARTICIPANT_DELETION}">Unable to delete the last participant</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__LAST_CHECK_POINT_DELETION}">Unable to delete the last check point</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__EXPORT_CONFIGURATION}">Unable to export configuration due to: {0}</v:String>
+
+    <v:String x:Key="TAB_ITEM__EVENT_CONFIGURATION">Event configuration</v:String>
+    <v:String x:Key="TAB_ITEM__LOAD_DATA">Load data</v:String>
+    <v:String x:Key="TAB_ITEM__EXPORT_PROTOCOL">Export protocol</v:String>
+
+    <v:String x:Key="BTN_LABEL__ADD_PARTICIPANT">Add participant</v:String>
+</ResourceDictionary>

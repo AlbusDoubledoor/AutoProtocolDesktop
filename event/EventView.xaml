@@ -1,0 +1,96 @@
+﻿<TabControl x:Class="AutoProtocol.EventMVVM.EventView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:global="clr-namespace:AutoProtocol"
+        xmlns:local="clr-namespace:AutoProtocol.EventMVVM"
+        mc:Ignorable="d" Margin="5" Padding="5">
+    <TabControl.Resources>
+        <global:IntToStringConverter x:Key="intToStringConverter" />
+    </TabControl.Resources>
+    <TabItem>
+        <TabItem.Header>
+            <TextBlock FontSize="16" FontWeight="Medium" Text="{DynamicResource TAB_ITEM__EVENT_CONFIGURATION}"/>
+        </TabItem.Header>
+        <StackPanel Margin="10">
+            <TextBlock Text="Имя события" Margin="0 0 5 0"/>
+            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="Задержка автоматической синхронизации (мин)"/>
+            <TextBox Text="{Binding AutoSyncDelay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource intToStringConverter}}"/>
+            <TextBlock Text="Задержка ручной синхронизации (с)" />
+            <TextBox Text="{Binding ManualSyncDelay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource intToStringConverter}}"/>
+            <Grid Margin="0 7 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.75*"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="0.25*"/>
+                </Grid.ColumnDefinitions>
+                <GridSplitter Grid.Column="1" ShowsPreview="False" Width="5"
+        HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{DynamicResource ControlBackgroundBrush}" />
+                <StackPanel Grid.Column="0">
+                    <TextBlock FontSize="14" Text="Участники" HorizontalAlignment="Center" FontWeight="Medium"/>
+                    <StackPanel Margin="0 5 5 5">
+                        <Button Command="{Binding AddParticipantCommand}" Content="Добавить участника"/>
+                        <Button  Command="{Binding DeleteParticipantCommand}" Content="Удалить"/>
+                        <StackPanel>
+                            <TextBlock Text="Имя участника" Margin="0 0 5 0"/>
+                            <TextBox Text="{Binding SelectedParticipant.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <ListBox  ItemsSource="{Binding Participants}"
+                 SelectedItem="{Binding SelectedParticipant}" Height="200" HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="5">
+                                <TextBlock FontSize="18" Text="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+                <StackPanel Grid.Column="2" >
+                    <TextBlock FontSize="14" Text="Контрольные точки" HorizontalAlignment="Center" FontWeight="Medium"/>
+                    <StackPanel Margin="5 5 0 5">
+                        <Button Command="{Binding AddCheckPointCommand}" Content="Добавить точку"/>
+                        <Button Command="{Binding DeleteCheckPointCommand}" Content="Удалить"/>
+                        <StackPanel>
+                            <TextBlock Text="Имя контрольной точки" Margin="0 0 5 0"/>
+                            <TextBox Text="{Binding SelectedCheckPoint.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <ListBox  ItemsSource="{Binding CheckPoints}"
+                 SelectedItem="{Binding SelectedCheckPoint}" Height="200" HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="5">
+                                    <TextBlock FontSize="18" Text="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </Grid>
+            <Button Content="Выгрузить конфигурацию" Command="{Binding ExportConfigurationCommand}"/>
+            <Button Content="Применить конфигурацию" Command="{Binding ApplyConfigurationCommand}"/>
+        </StackPanel>
+    </TabItem>
+    <TabItem>
+        <TabItem.Header>
+            <TextBlock FontSize="16" FontWeight="Medium" Text="{DynamicResource TAB_ITEM__LOAD_DATA}"/>
+        </TabItem.Header>
+        <StackPanel>
+            <Button>Загрузить данные</Button>
+        </StackPanel>
+    </TabItem>
+    <TabItem>
+        <TabItem.Header>
+            <TextBlock FontSize="16" FontWeight="Medium" Text="{DynamicResource TAB_ITEM__EXPORT_PROTOCOL}"/>
+        </TabItem.Header>
+        <StackPanel>
+            <Button>Выгрузить протокол</Button>
+        </StackPanel>
+    </TabItem>
+</TabControl>

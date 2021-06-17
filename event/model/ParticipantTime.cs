@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -7,35 +8,20 @@ using System.Text;
 namespace AutoProtocol.EventMVVM
 {
     [Serializable]
-    class Participant : INotifyPropertyChanged
+    class ParticipantTime : INotifyPropertyChanged
     {
-        private static readonly int ParticipantNameMaxLength = 128;
-        private int _id;
-
-        public int Id
+        private CheckPoint _checkPoint;
+        public CheckPoint CheckPoint
         {
-            get => _id; 
-            set {
-                _id = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private string _name;
-
-        public string Name
-        {
-            get => _name;
+            get => _checkPoint;
             set
             {
-                if (value.Length > ParticipantNameMaxLength) return;
-
-                _name = value;
+                _checkPoint = value;
                 OnPropertyChanged();
             }
         }
 
-        public HashSet<ParticipantTime> ParticipantTimes = new HashSet<ParticipantTime>();
+        public ObservableCollection<Time> Times { get; } = new ObservableCollection<Time>();
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;

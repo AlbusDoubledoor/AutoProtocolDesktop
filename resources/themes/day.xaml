@@ -708,7 +708,7 @@
                     <Grid>
                         <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2" Background="{DynamicResource ControlBackgroundBrush}" />
                         <ScrollViewer Margin="1" Style="{DynamicResource NuclearScrollViewer}" Focusable="false" Background="{x:Null}">
-                            <StackPanel Margin="1,1,1,1" IsItemsHost="true" />
+                            <ItemsPresenter Margin="1,1,1,1" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -2066,9 +2066,9 @@
                                 </LinearGradientBrush>
                             </Border.Background>
                         </Border>
-                        <Grid>
+                        <StackPanel>
                             <ContentPresenter x:Name="ContentSite" RecognizesAccessKey="True" ContentSource="Header" d:LayoutOverrides="Width, Height" HorizontalAlignment="Center" Margin="6,1,6,1" VerticalAlignment="Center" />
-                        </Grid>
+                        </StackPanel>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="TabStripPlacement" Value="Left">

@@ -8,6 +8,8 @@ using System.Windows;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Collections.ObjectModel;
+using Syncfusion.Pdf;
+using Syncfusion.HtmlConverter;
 
 namespace AutoProtocol.EventMVVM
 {
@@ -40,7 +42,7 @@ namespace AutoProtocol.EventMVVM
             return "";
         }
 
-        public Func<string, string> ProvideFileImport { get; set; } 
+        public Func<string, string> ProvideFileImport { get; set; }
         public string RequestFileImport(string filter)
         {
             if (ProvideFileImport != null)
@@ -50,7 +52,7 @@ namespace AutoProtocol.EventMVVM
             return "";
         }
 
-        public Func<string,bool> ProvideConfirm { get; set; }
+        public Func<string, bool> ProvideConfirm { get; set; }
         public bool RequestConfirm(string confirmation)
         {
             if (ProvideConfirm != null)
@@ -314,13 +316,26 @@ namespace AutoProtocol.EventMVVM
         }
 
         private bool _isConfigurationApplied = false;
-        public bool IsConfigurationApplied { 
-            get => _isConfigurationApplied; 
+        public bool IsConfigurationApplied
+        {
+            get => _isConfigurationApplied;
             set
             {
                 _isConfigurationApplied = value;
                 OnPropertyChanged();
-            } 
+            }
+        }
+
+        public ObservableCollection<FinalDataViewModel> FinalData { get; set; } = new ObservableCollection<FinalDataViewModel>();
+        private FinalDataViewModel _selectedLap;
+        public FinalDataViewModel SelectedLap
+        {
+            get => _selectedLap;
+            set
+            {
+                _selectedLap = value;
+                OnPropertyChanged();
+            }
         }
 
         private RelayCommand _applyConfigurationCommand;
@@ -331,7 +346,95 @@ namespace AutoProtocol.EventMVVM
                 return _applyConfigurationCommand ??
                     (_applyConfigurationCommand = new RelayCommand(obj =>
                     {
-                        IsConfigurationApplied = RequestConfirm("После применения, конфигурацию нельзя будет изменить. Продолжить?");
+                    IsConfigurationApplied = RequestConfirm("После применения, конфигурацию нельзя будет изменить. Продолжить?");
+                        foreach (Participant participant in Participants)
+                        {
+                            foreach (CheckPoint checkPoint in CheckPoints)
+                            {
+
+                                ParticipantTime newParticipantTime = new ParticipantTime();
+                                newParticipantTime.CheckPoint = checkPoint;
+                                for (int i = 0; i < LapsCount; ++i)
+                                {
+                                    newParticipantTime.Times.Add(new Time());
+                                }
+                                participant.ParticipantTimes.Add(newParticipantTime);
+
+                            }
+                        }
+                        for (int i = 1; i <= LapsCount; ++i)
+                        {
+                            FinalData.Add(new FinalDataViewModel(i, "Lap {0}", CheckPoints, Participants));
+                            SelectedLap = FinalData[0];
+                        }
+                    }));
+            }
+        }
+
+        private RelayCommand _loadDataCommand;
+        public RelayCommand LoadDataCommand
+        {
+            get
+            {
+                return _loadDataCommand ??
+                    (_loadDataCommand = new RelayCommand(obj =>
+                    {
+                        try
+                        {
+                            string fileExtension = ".apd";
+                            string localizedFilter = Application.Current.FindResource(R.FILE_FILTER__EVENT).ToString();
+                            string filter = $"{localizedFilter} (*{fileExtension})|*{fileExtension}";
+                            string fileName = RequestFileImport(filter);
+
+                            if (fileName.Length == 0) return;
+
+                            new EventDataLoader(this.Event, fileName);
+                        }
+                        catch (Exception ex)
+                        {
+                            string localizedErrorMsg = Application.Current.FindResource(R.ERRORS__EXPORT_CONFIGURATION).ToString();
+                            DoErrorAction(String.Format(localizedErrorMsg, ex.Message));
+                        }
+                    }));
+            }
+        }
+
+        private RelayCommand _exportProtocolCommand;
+        public RelayCommand ExportProtocolCommand
+        {
+            get
+            {
+                return _exportProtocolCommand ??
+                    (_exportProtocolCommand = new RelayCommand(obj =>
+                    {
+                        try
+                        {
+                            HtmlToPdfConverter htmlConverter = new HtmlToPdfConverter(HtmlRenderingEngine.WebKit);
+
+                            WebKitConverterSettings settings = new WebKitConverterSettings();
+
+                            //Set WebKit path
+                            settings.WebKitPath = "qtbin/";
+
+                            //Assign WebKit settings to HTML converter
+                            htmlConverter.ConverterSettings = settings;
+
+                            //Convert URL to PDF
+                            PdfDocument document = htmlConverter.Convert(HTMLTemplate,"my.x");
+
+                            //Save and close the PDF document 
+                            string fileName = RequestFileExport("Protocol file (*.pdf)|*.pdf");
+                            document.Save(File.Create(fileName));
+
+                            document.Close(true);
+
+                            
+                        }
+                        catch (Exception ex)
+                        {
+                            string localizedErrorMsg = Application.Current.FindResource(R.ERRORS__EXPORT_CONFIGURATION).ToString();
+                            DoErrorAction(String.Format(localizedErrorMsg, ex.Message));
+                        }
                     }));
             }
         }
@@ -341,6 +444,18 @@ namespace AutoProtocol.EventMVVM
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
 
+        }
+
+
+        private string _htmlTemplate;
+        public string HTMLTemplate
+        {
+            get => _htmlTemplate;
+            set
+            {
+                _htmlTemplate = value;
+                OnPropertyChanged();
+            }
         }
 
         public bool Save(String savePath)

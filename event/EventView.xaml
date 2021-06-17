@@ -51,7 +51,7 @@
                             </StackPanel>
                         </StackPanel>
                         <ListBox  ItemsSource="{Binding Participants}"
-                 SelectedItem="{Binding SelectedParticipant}" Height="200" HorizontalContentAlignment="Stretch">
+                 SelectedItem="{Binding SelectedParticipant}" Height="250" HorizontalContentAlignment="Stretch">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Margin="5">
@@ -73,7 +73,7 @@
                             </StackPanel>
                         </StackPanel>
                         <ListBox  ItemsSource="{Binding CheckPoints}"
-                 SelectedItem="{Binding SelectedCheckPoint}" Height="200" HorizontalContentAlignment="Stretch">
+                 SelectedItem="{Binding SelectedCheckPoint}" Height="250" HorizontalContentAlignment="Stretch">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Margin="5">
@@ -93,7 +93,71 @@
             <TextBlock FontSize="16" FontWeight="Medium" Text="{DynamicResource TAB_ITEM__LOAD_DATA}"/>
         </TabItem.Header>
         <StackPanel>
-            <Button>Загрузить данные</Button>
+            <Button MinHeight="30" Command="{Binding LoadDataCommand}">Загрузить данные</Button>
+            <ListBox  Height="100" ItemsSource="{Binding FinalData}" SelectedItem="{Binding SelectedLap}" Margin="0 5 0 0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=LapIndex, UpdateSourceTrigger=PropertyChanged}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="500">
+                <StackPanel DataContext="{Binding SelectedLap, UpdateSourceTrigger=PropertyChanged}">
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Left">
+                            <TextBlock Height="20" />
+                            <ListBox  IsEnabled="false" ScrollViewer.HorizontalScrollBarVisibility="Auto" ItemsSource="{Binding Path=Participants}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Height="20" FontSize="10">
+                                    <Run Text="{Binding Id}"/>
+                                    <Run Text="{Binding Name}"/>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                        <DockPanel>
+                            <ListBox DockPanel.Dock="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" IsEnabled="False" ItemsSource="{Binding Path=CheckPoints}">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Width="85" FontSize="10">
+                                    <Run Text="{Binding Id}"/>
+                                    <Run Text="{Binding Name}"/>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.CanContentScroll="False" ItemsSource="{Binding Path=ParticipantTimes}">
+
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <ListBox ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="True" ItemsSource="{Binding}">
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel/>
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBox Height="20" Width="80" FontSize="12" FontWeight="Bold" Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}"/>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </DockPanel>
+                    </DockPanel>
+                </StackPanel>
+            </ScrollViewer>
+
         </StackPanel>
     </TabItem>
     <TabItem Visibility="{Binding IsConfigurationApplied, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}">
@@ -101,7 +165,9 @@
             <TextBlock FontSize="16" FontWeight="Medium" Text="{DynamicResource TAB_ITEM__EXPORT_PROTOCOL}"/>
         </TabItem.Header>
         <StackPanel>
-            <Button>Выгрузить протокол</Button>
+            <Button Command="{Binding ExportProtocolCommand}">Выгрузить протокол</Button>
+
+            <TextBox Text="{Binding HTMLTemplate}" TextWrapping="Wrap" AcceptsReturn="True"/>
         </StackPanel>
     </TabItem>
 </TabControl>

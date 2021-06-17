@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoProtocol"
         mc:Ignorable="d"
-        Title="{DynamicResource APP_TITLE}" MinHeight="450" MinWidth="800">
+        Title="{DynamicResource APP_TITLE}" MinHeight="750" MinWidth="1000" WindowStartupLocation="CenterScreen">
     <DockPanel Name="MainParentLayout">
         <Menu DockPanel.Dock="Top">
             <MenuItem x:Name="MenuItem_Event" Header="{DynamicResource MENU_ITEM__EVENT}">

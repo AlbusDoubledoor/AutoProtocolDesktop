@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoProtocol"
         mc:Ignorable="d"
-        Title="{DynamicResource APP_TITLE}" MinHeight="750" MinWidth="1000" WindowStartupLocation="CenterScreen">
+        Title="{DynamicResource APP_TITLE}" MinHeight="800" MinWidth="1200" WindowStartupLocation="CenterScreen">
     <DockPanel Name="MainParentLayout">
         <Menu DockPanel.Dock="Top">
             <MenuItem x:Name="MenuItem_Event" Header="{DynamicResource MENU_ITEM__EVENT}">
@@ -29,7 +29,7 @@
                 </VisualBrush>
             </Border.BorderBrush>
             <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" FontSize="20">Событие отсутствует. Создайте новое событие или загрузите предыдущее</TextBlock>
+                <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" FontSize="20" Text="{DynamicResource LABEL__EVENT_VIEW_PLACEHOLDER}"/>
             </Grid>
         </Border>
     </DockPanel>

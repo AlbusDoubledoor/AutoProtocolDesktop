@@ -18,20 +18,63 @@
     <v:String x:Key="THEME_HEADER__NIGHT">Night</v:String>
 
     <v:String x:Key="{x:Static global:R.FILE_FILTER__EVENT}">Event file</v:String>
+    <v:String x:Key="{x:Static global:R.FILE_FILTER__EVENT_CONFIGURATION}">Event configuration file</v:String>
+    <v:String x:Key="{x:Static global:R.FILE_FILTER__EVENT_DATA}">Event data file</v:String>
+    <v:String x:Key="{x:Static global:R.FILE_FILTER__PROTOCOL}">Protocol</v:String>
+    <v:String x:Key="{x:Static global:R.FILE_FILTER__HTML_TEMPLATE}">HTML Template</v:String>
 
     <v:String x:Key="{x:Static global:R.DLG_MSG__SAVE_ERROR}">Couldn't save an event file {0}</v:String>
     <v:String x:Key="{x:Static global:R.DLG_MSG__LOAD_ERROR}">Couldn't load an event file {0}</v:String>
+    <v:String x:Key="{x:Static global:R.DLG_MSG__CONFIRM_APPLY_CONFIG}">When config's applied it won't be changeable. Continue?</v:String>
+    <v:String x:Key="{x:Static global:R.DLG_MSG__CONFIRM_RESET_CONFIG}">When config's reset the data will be cleared. Continue?</v:String>
+    
     <v:String x:Key="{x:Static global:R.DLG_TITLE__SAVE_ERROR}">Error on saving</v:String>
     <v:String x:Key="{x:Static global:R.DLG_TITLE__LOAD_ERROR}">Error on loading</v:String>
     <v:String x:Key="{x:Static global:R.DLG_TITLE__EVENT_ERROR}">Event error</v:String>
+    <v:String x:Key="{x:Static global:R.DLG_TITLE__CONFIRMATION}">Confirmation</v:String>
 
     <v:String x:Key="{x:Static global:R.ERRORS__LAST_PARTICIPANT_DELETION}">Unable to delete the last participant</v:String>
     <v:String x:Key="{x:Static global:R.ERRORS__LAST_CHECK_POINT_DELETION}">Unable to delete the last check point</v:String>
     <v:String x:Key="{x:Static global:R.ERRORS__EXPORT_CONFIGURATION}">Unable to export configuration due to: {0}</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__IMPORT_CONFIGURATION}">Unable to import configuration due to: {0}</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__IMPORT_DATA}">Unable to import data due to: {0}</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__EXPORT_PROTOCOL}">Unable to export protocol due to: {0}</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__IMPORT_TEMPLATE}">Unable to import template due to: {0}</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__EXPORT_TEMPLATE}">Unable to export template due to: {0}</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__TEMPLATE_HELP}">Unable to open template help due to: {0}</v:String>
+    
+    <v:String x:Key="{x:Static global:R.DEFAULT_VALUE__EVENT_NAME}">New event</v:String>
+    <v:String x:Key="{x:Static global:R.DEFAULT_VALUE__PARTICIPANT_NAME}">New participant</v:String>
+    <v:String x:Key="{x:Static global:R.DEFAULT_VALUE__CHECKPOINT_NAME}">New checkpoint</v:String>
 
+    <v:String x:Key="{x:Static global:R.LAP_INDEX_FORMAT}">Lap {0}</v:String>
+    
     <v:String x:Key="TAB_ITEM__EVENT_CONFIGURATION">Event configuration</v:String>
-    <v:String x:Key="TAB_ITEM__LOAD_DATA">Load data</v:String>
+    <v:String x:Key="TAB_ITEM__IMPORT_DATA">Import data</v:String>
     <v:String x:Key="TAB_ITEM__EXPORT_PROTOCOL">Export protocol</v:String>
 
-    <v:String x:Key="BTN_LABEL__ADD_PARTICIPANT">Add participant</v:String>
+    <v:String x:Key="LABEL__EVENT_NAME">Event name</v:String>
+    <v:String x:Key="LABEL__AUTO_SYNC_DELAY">Auto sync delay (min)</v:String>
+    <v:String x:Key="LABEL__MANUAL_SYNC_DELAY">Manual sync delay (s)</v:String>
+    <v:String x:Key="LABEL__LAPS_COUNT">Laps count</v:String>
+    <v:String x:Key="LABEL__PARTICIPANTS">Participants</v:String>
+    <v:String x:Key="LABEL__CHECKPOINTS">Checkpoints</v:String>
+    <v:String x:Key="LABEL__CHECKPOINT_NAME">Checkpoint name</v:String>
+    <v:String x:Key="LABEL__PARTICIPANT_NAME">Participant name</v:String>
+    <v:String x:Key="LABEL__EVENT_VIEW_PLACEHOLDER">Missing event. Create new or load previous</v:String>
+    
+    
+    <v:String x:Key="BTN_LABEL__ADD">Add</v:String>
+    <v:String x:Key="BTN_LABEL__REMOVE">Remove</v:String>
+    <v:String x:Key="BTN_LABEL__IMPORT_CONFIGURATION">Import configuration</v:String>
+    <v:String x:Key="BTN_LABEL__IMPORT_DATA">Import data</v:String>
+    <v:String x:Key="BTN_LABEL__EXPORT_CONFIGURATION">Export configuration</v:String>
+    <v:String x:Key="BTN_LABEL__APPLY_CONFIGURATION">Apply configuration</v:String>
+    <v:String x:Key="BTN_LABEL__RESET_CONFIGURATION">Reset configuration</v:String>
+    <v:String x:Key="BTN_LABEL__EXPORT_PROTOCOL">Export protocol</v:String>
+    <v:String x:Key="BTN_LABEL__IMPORT_STANDARD_TEMPLATE">Import standard template</v:String>
+    <v:String x:Key="BTN_LABEL__EXPORT_TEMPLATE">Export template</v:String>
+    <v:String x:Key="BTN_LABEL__IMPORT_TEMPLATE">Import template</v:String>
+    <v:String x:Key="BTN_LABEL__HELP_TEMPLATE">Help for template</v:String>
+
 </ResourceDictionary>

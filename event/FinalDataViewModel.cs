@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
+using System.Windows;
 
 namespace AutoProtocol.EventMVVM
 {
     class FinalDataViewModel : INotifyPropertyChanged
     {
         private int _index;
-        private string _format;
+        private string _format = Application.Current.FindResource(R.LAP_INDEX_FORMAT).ToString();
 
 
         public string LapIndex
@@ -22,9 +21,8 @@ namespace AutoProtocol.EventMVVM
         public ObservableCollection<Participant> Participants { get; set; } = new ObservableCollection<Participant>();
         public ObservableCollection<ObservableCollection<Time>> ParticipantTimes { get; set; } = new ObservableCollection<ObservableCollection<Time>>();
 
-        public FinalDataViewModel(int index, string format, ObservableCollection<CheckPoint> checkpoints, ObservableCollection<Participant> participants)
+        public FinalDataViewModel(int index, ObservableCollection<CheckPoint> checkpoints, ObservableCollection<Participant> participants)
         {
-            _format = format;
             _index = index;
             CheckPoints = checkpoints;
             Participants = participants;

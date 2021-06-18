@@ -14,11 +14,33 @@ namespace AutoProtocol.EventMVVM
         private int _autoSyncDelay = 1;
         private int _manualSyncDelay = 10;
         private int _lapsCount = 1;
+        private bool _isStaged = false;
+        private string _htmlTemplate;
         private static readonly int EventNameMaxLength = 128;
 
         public HashSet<Participant> Participants { get; } = new HashSet<Participant>();
         public HashSet<CheckPoint> CheckPoints { get; } = new HashSet<CheckPoint>();
         
+        public string HTMLTemplate
+        {
+            get => _htmlTemplate;
+            set
+            {
+                _htmlTemplate = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsStaged
+        {
+            get => _isStaged;
+            set
+            {
+                _isStaged = value;
+                OnPropertyChanged();
+            }
+        }
+
         public int LapsCount
         {
             get => _lapsCount;

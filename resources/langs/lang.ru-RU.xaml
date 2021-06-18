@@ -18,20 +18,61 @@
     <v:String x:Key="THEME_HEADER__NIGHT">Ночь</v:String>
 
     <v:String x:Key="{x:Static global:R.FILE_FILTER__EVENT}">Файл события</v:String>
+    <v:String x:Key="{x:Static global:R.FILE_FILTER__EVENT_CONFIGURATION}">Файл конфигурации события</v:String>
+    <v:String x:Key="{x:Static global:R.FILE_FILTER__EVENT_DATA}">Файл данных события</v:String>
+    <v:String x:Key="{x:Static global:R.FILE_FILTER__PROTOCOL}">Протокол</v:String>
+    <v:String x:Key="{x:Static global:R.FILE_FILTER__HTML_TEMPLATE}">HTML-шаблон</v:String>
 
     <v:String x:Key="{x:Static global:R.DLG_MSG__SAVE_ERROR}">Не удалось сохранить файл события {0}</v:String>
     <v:String x:Key="{x:Static global:R.DLG_MSG__LOAD_ERROR}">Не удалось загрузить файл события {0}</v:String>
+    <v:String x:Key="{x:Static global:R.DLG_MSG__CONFIRM_APPLY_CONFIG}">После применения конфигурации, её нельзя будет изменить. Продолжить?</v:String>
+    <v:String x:Key="{x:Static global:R.DLG_MSG__CONFIRM_RESET_CONFIG}">После сброса конфигурации, данные будут очищены. Продолжить?</v:String>
+    
     <v:String x:Key="{x:Static global:R.DLG_TITLE__SAVE_ERROR}">Ошибка сохранения</v:String>
     <v:String x:Key="{x:Static global:R.DLG_TITLE__LOAD_ERROR}">Ошибка загрузки</v:String>
     <v:String x:Key="{x:Static global:R.DLG_TITLE__EVENT_ERROR}">Ошибка события</v:String>
+    <v:String x:Key="{x:Static global:R.DLG_TITLE__CONFIRMATION}">Подтверждение</v:String>
 
     <v:String x:Key="{x:Static global:R.ERRORS__LAST_PARTICIPANT_DELETION}">Нельзя удалить последнего участника</v:String>
     <v:String x:Key="{x:Static global:R.ERRORS__LAST_CHECK_POINT_DELETION}">Нельзя удалить последнюю контрольную точку</v:String>
-    <v:String x:Key="{x:Static global:R.ERRORS__EXPORT_CONFIGURATION}">Не удалось выгрузить конфигурацию события: {0}</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__EXPORT_CONFIGURATION}">Не удалось экспортировать конфигурацию события: {0}</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__IMPORT_CONFIGURATION}">Не удалось импортировать конфигурацию события: {0}</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__IMPORT_DATA}">Не удалось импортировать данные: {0}</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__EXPORT_PROTOCOL}">Не удалось экспортировать протокол: {0}</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__IMPORT_TEMPLATE}">Не удалось импортировать шаблон: {0}</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__EXPORT_TEMPLATE}">Не удалось экспортировать шаблон: {0}</v:String>
+    <v:String x:Key="{x:Static global:R.ERRORS__TEMPLATE_HELP}">Не удалось открыть справку по шаблону: {0}</v:String>
 
+    <v:String x:Key="{x:Static global:R.DEFAULT_VALUE__EVENT_NAME}">Новое событие</v:String>
+    <v:String x:Key="{x:Static global:R.DEFAULT_VALUE__PARTICIPANT_NAME}">Новый участник</v:String>
+    <v:String x:Key="{x:Static global:R.DEFAULT_VALUE__CHECKPOINT_NAME}">Новая контрольная точка</v:String>
+    
+    <v:String x:Key="{x:Static global:R.LAP_INDEX_FORMAT}">Круг {0}</v:String>
+    
     <v:String x:Key="TAB_ITEM__EVENT_CONFIGURATION">Конфигурация события</v:String>
-    <v:String x:Key="TAB_ITEM__LOAD_DATA">Загрузка данных</v:String>
+    <v:String x:Key="TAB_ITEM__IMPORT_DATA">Импорт данных</v:String>
     <v:String x:Key="TAB_ITEM__EXPORT_PROTOCOL">Экспорт протокола</v:String>
 
-    <v:String x:Key="BTN_LABEL__ADD_PARTICIPANT">Добавить участника</v:String>
+    <v:String x:Key="LABEL__EVENT_NAME">Название события</v:String>
+    <v:String x:Key="LABEL__AUTO_SYNC_DELAY">Задержка автоматической синхронизации (мин)</v:String>
+    <v:String x:Key="LABEL__MANUAL_SYNC_DELAY">Задержка синхронизации вручную (с)</v:String>
+    <v:String x:Key="LABEL__LAPS_COUNT">Количество кругов</v:String>
+    <v:String x:Key="LABEL__PARTICIPANTS">Участники</v:String>
+    <v:String x:Key="LABEL__CHECKPOINTS">Контрольные точки</v:String>
+    <v:String x:Key="LABEL__CHECKPOINT_NAME">Название контрольной точки</v:String>
+    <v:String x:Key="LABEL__PARTICIPANT_NAME">Имя участника</v:String>
+    <v:String x:Key="LABEL__EVENT_VIEW_PLACEHOLDER">Событие отсутствует. Создайте новое или загрузите предыдущее</v:String>
+
+    <v:String x:Key="BTN_LABEL__ADD">Добавить</v:String>
+    <v:String x:Key="BTN_LABEL__REMOVE">Удалить</v:String>
+    <v:String x:Key="BTN_LABEL__IMPORT_DATA">Импортировать данные</v:String>
+    <v:String x:Key="BTN_LABEL__IMPORT_CONFIGURATION">Импортировать конфигурацию</v:String>
+    <v:String x:Key="BTN_LABEL__EXPORT_CONFIGURATION">Экспортировать конфигурацию</v:String>
+    <v:String x:Key="BTN_LABEL__APPLY_CONFIGURATION">Применить конфигурацию</v:String>
+    <v:String x:Key="BTN_LABEL__RESET_CONFIGURATION">Сбросить конфигурацию</v:String>
+    <v:String x:Key="BTN_LABEL__EXPORT_PROTOCOL">Экспортировать протокол</v:String>
+    <v:String x:Key="BTN_LABEL__IMPORT_STANDARD_TEMPLATE">Импортировать стандартный шаблон</v:String>
+    <v:String x:Key="BTN_LABEL__EXPORT_TEMPLATE">Экспортировать шаблон</v:String>
+    <v:String x:Key="BTN_LABEL__IMPORT_TEMPLATE">Импортировать шаблон</v:String>
+    <v:String x:Key="BTN_LABEL__HELP_TEMPLATE">Справка по шаблону</v:String>
 </ResourceDictionary>

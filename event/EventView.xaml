@@ -16,22 +16,27 @@
             <TextBlock FontSize="16" FontWeight="Medium" Text="{DynamicResource TAB_ITEM__EVENT_CONFIGURATION}"/>
         </TabItem.Header>
         <StackPanel Margin="10">
-            <Button MinHeight="30" Content="Загрузить конфигурацию" 
+            <Button MinHeight="30" Content="{DynamicResource BTN_LABEL__EXPORT_CONFIGURATION}" Command="{Binding ExportConfigurationCommand}"/>
+            <Button MinHeight="30" Content="{DynamicResource BTN_LABEL__IMPORT_CONFIGURATION}" 
                     IsEnabled="{Binding IsConfigurationApplied, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource inverseBooleanConverter}}"
                     Command="{Binding ImportConfigurationCommand}"/>
-            <Button MinHeight="30" Content="Выгрузить конфигурацию" Command="{Binding ExportConfigurationCommand}"/>
-            <Button MinHeight="30" Content="Применить конфигурацию" 
+            <Button MinHeight="30" Content="{DynamicResource BTN_LABEL__APPLY_CONFIGURATION}"
                     IsEnabled="{Binding IsConfigurationApplied, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource inverseBooleanConverter}}"
                     Command="{Binding ApplyConfigurationCommand}"/>
-            <StackPanel IsEnabled="{Binding IsConfigurationApplied, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource inverseBooleanConverter}}">
-                <TextBlock Text="Имя события" Margin="0 0 5 0"/>
-                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Text="Задержка автоматической синхронизации (мин)"/>
-                <TextBox Text="{Binding AutoSyncDelay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource intToStringConverter}}"/>
-                <TextBlock Text="Задержка ручной синхронизации (с)" />
-                <TextBox Text="{Binding ManualSyncDelay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource intToStringConverter}}"/>
-                <TextBlock Text="Количество кругов" />
-                <TextBox Text="{Binding LapsCount, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource intToStringConverter}}"/>
+            <Button MinHeight="30" Content="{DynamicResource BTN_LABEL__RESET_CONFIGURATION}" 
+                    IsEnabled="{Binding IsConfigurationApplied, UpdateSourceTrigger=PropertyChanged}"
+                    Command="{Binding ResetConfigurationCommand}"/>
+            <StackPanel>
+                <StackPanel IsEnabled="{Binding IsConfigurationApplied, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource inverseBooleanConverter}}">
+                    <TextBlock Text="{DynamicResource LABEL__EVENT_NAME}" Margin="0 0 5 0"/>
+                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="{DynamicResource LABEL__AUTO_SYNC_DELAY}"/>
+                    <TextBox Text="{Binding AutoSyncDelay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource intToStringConverter}}"/>
+                    <TextBlock Text="{DynamicResource LABEL__MANUAL_SYNC_DELAY}" />
+                    <TextBox Text="{Binding ManualSyncDelay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource intToStringConverter}}"/>
+                    <TextBlock Text="{DynamicResource LABEL__LAPS_COUNT}" />
+                    <TextBox Text="{Binding LapsCount, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource intToStringConverter}}"/>
+                </StackPanel>
                 <Grid Margin="0 7 0 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.75*"/>
@@ -41,12 +46,12 @@
                     <GridSplitter Grid.Column="1" ShowsPreview="False" Width="5"
         HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{DynamicResource ControlBackgroundBrush}" />
                     <StackPanel Grid.Column="0">
-                        <TextBlock FontSize="14" Text="Участники" HorizontalAlignment="Center" FontWeight="Medium"/>
-                        <StackPanel Margin="0 5 5 5">
-                            <Button Command="{Binding AddParticipantCommand}" Content="Добавить участника"/>
-                            <Button  Command="{Binding DeleteParticipantCommand}" Content="Удалить"/>
+                        <TextBlock FontSize="14" Text="{DynamicResource LABEL__PARTICIPANTS}" HorizontalAlignment="Center" FontWeight="Medium"/>
+                        <StackPanel Margin="0 5 5 5" IsEnabled="{Binding IsConfigurationApplied, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource inverseBooleanConverter}}">
+                            <Button Command="{Binding AddParticipantCommand}" Content="{DynamicResource BTN_LABEL__ADD}"/>
+                            <Button  Command="{Binding DeleteParticipantCommand}" Content="{DynamicResource BTN_LABEL__REMOVE}"/>
                             <StackPanel>
-                                <TextBlock Text="Имя участника" Margin="0 0 5 0"/>
+                                <TextBlock Text="{DynamicResource LABEL__PARTICIPANT_NAME}" Margin="0 0 5 0"/>
                                 <TextBox Text="{Binding SelectedParticipant.Name, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                         </StackPanel>
@@ -63,12 +68,12 @@
                         </ListBox>
                     </StackPanel>
                     <StackPanel Grid.Column="2" >
-                        <TextBlock FontSize="14" Text="Контрольные точки" HorizontalAlignment="Center" FontWeight="Medium"/>
-                        <StackPanel Margin="5 5 0 5">
-                            <Button Command="{Binding AddCheckPointCommand}" Content="Добавить точку"/>
-                            <Button Command="{Binding DeleteCheckPointCommand}" Content="Удалить"/>
+                        <TextBlock FontSize="14" Text="{DynamicResource LABEL__CHECKPOINTS}" HorizontalAlignment="Center" FontWeight="Medium"/>
+                        <StackPanel Margin="5 5 0 5" IsEnabled="{Binding IsConfigurationApplied, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource inverseBooleanConverter}}">
+                            <Button Command="{Binding AddCheckPointCommand}" Content="{DynamicResource BTN_LABEL__ADD}"/>
+                            <Button Command="{Binding DeleteCheckPointCommand}" Content="{DynamicResource BTN_LABEL__REMOVE}"/>
                             <StackPanel>
-                                <TextBlock Text="Имя контрольной точки" Margin="0 0 5 0"/>
+                                <TextBlock Text="{DynamicResource LABEL__CHECKPOINT_NAME}" Margin="0 0 5 0"/>
                                 <TextBox Text="{Binding SelectedCheckPoint.Name, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                         </StackPanel>
@@ -90,63 +95,64 @@
     </TabItem>
     <TabItem Visibility="{Binding IsConfigurationApplied, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}">
         <TabItem.Header>
-            <TextBlock FontSize="16" FontWeight="Medium" Text="{DynamicResource TAB_ITEM__LOAD_DATA}"/>
+            <TextBlock FontSize="16" FontWeight="Medium" Text="{DynamicResource TAB_ITEM__IMPORT_DATA}"/>
         </TabItem.Header>
         <StackPanel>
-            <Button MinHeight="30" Command="{Binding LoadDataCommand}">Загрузить данные</Button>
+            <Button MinHeight="30" Command="{Binding LoadDataCommand}" Content="{DynamicResource BTN_LABEL__IMPORT_DATA}"/>
             <ListBox  Height="100" ItemsSource="{Binding FinalData}" SelectedItem="{Binding SelectedLap}" Margin="0 5 0 0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Path=LapIndex, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Grid HorizontalAlignment="Center">
+                            <TextBlock FontSize="18" FontWeight="Medium" Text="{Binding Path=LapIndex, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="500">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="500" Panel.ZIndex="10">
                 <StackPanel DataContext="{Binding SelectedLap, UpdateSourceTrigger=PropertyChanged}">
                     <DockPanel>
                         <StackPanel DockPanel.Dock="Left">
-                            <TextBlock Height="20" />
-                            <ListBox  IsEnabled="false" ScrollViewer.HorizontalScrollBarVisibility="Auto" ItemsSource="{Binding Path=Participants}">
+                            <TextBlock Height="35" />
+                            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Auto" Width="100" ItemsSource="{Binding Path=Participants}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Height="20" FontSize="10">
-                                    <Run Text="{Binding Id}"/>
-                                    <Run Text="{Binding Name}"/>
+                                        <TextBlock VerticalAlignment="Center" Height="30" FontSize="10">
+                                                <Run Text="{Binding Id}" />
+                                                <Run Text="{Binding Name}"/>
                                         </TextBlock>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
                         </StackPanel>
                         <DockPanel>
-                            <ListBox DockPanel.Dock="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" IsEnabled="False" ItemsSource="{Binding Path=CheckPoints}">
+                            <ListBox DockPanel.Dock="Top" Height="35" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Path=CheckPoints}">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel/>
+                                        <WrapPanel Margin="7.75 0 0 0" ItemWidth="100" />
                                     </ItemsPanelTemplate>
                                 </ListBox.ItemsPanel>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Width="85" FontSize="10">
+                                        <TextBlock FontSize="10" Width="Auto" Height="40" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <Run Text="{Binding Id}"/>
                                     <Run Text="{Binding Name}"/>
                                         </TextBlock>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled"  ScrollViewer.CanContentScroll="False" ItemsSource="{Binding Path=ParticipantTimes}">
-
+                            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled"  ItemsSource="{Binding Path=ParticipantTimes}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <ListBox ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="True" ItemsSource="{Binding}">
+                                        <ListBox ItemsSource="{Binding}">
                                             <ListBox.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <WrapPanel/>
+                                                    <WrapPanel ItemWidth="100" ItemHeight="26" VerticalAlignment="Center"/>
                                                 </ItemsPanelTemplate>
                                             </ListBox.ItemsPanel>
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBox Height="20" Width="80" FontSize="12" FontWeight="Bold" Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox FontSize="12" HorizontalAlignment="Center" FontWeight="Bold" Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}"/>
                                                 </DataTemplate>
                                             </ListBox.ItemTemplate>
                                         </ListBox>
@@ -165,9 +171,20 @@
             <TextBlock FontSize="16" FontWeight="Medium" Text="{DynamicResource TAB_ITEM__EXPORT_PROTOCOL}"/>
         </TabItem.Header>
         <StackPanel>
-            <Button Command="{Binding ExportProtocolCommand}">Выгрузить протокол</Button>
-
-            <TextBox Text="{Binding HTMLTemplate}" TextWrapping="Wrap" AcceptsReturn="True"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.75*"/>
+                    <ColumnDefinition Width="0.25*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Height="600" Margin="5" Grid.Column="0" DockPanel.Dock="Left" Text="{Binding HTMLTemplate, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True"/>
+                <StackPanel Margin="5" Grid.Column="1">
+                    <Button MinHeight="30" Command="{Binding ImportStandardTemplateCommand}" Content="{DynamicResource BTN_LABEL__IMPORT_STANDARD_TEMPLATE}"/>
+                    <Button Margin="0 5 0 0" MinHeight="30" Command="{Binding ExportTemplateCommand}" Content="{DynamicResource BTN_LABEL__EXPORT_TEMPLATE}"/>
+                    <Button Margin="0 5 0 0" MinHeight="30" Command="{Binding ImportTemplateCommand}" Content="{DynamicResource BTN_LABEL__IMPORT_TEMPLATE}"/>
+                    <Button Margin="0 5 0 0" MinHeight="30" Command="{Binding TemplateHelpCommand}" Content="{DynamicResource BTN_LABEL__HELP_TEMPLATE}"/>
+                </StackPanel>
+            </Grid>
+            <Button Margin="0 15 0 0" MinHeight="40" Command="{Binding ExportProtocolCommand}" Content="{DynamicResource BTN_LABEL__EXPORT_PROTOCOL}"/>
         </StackPanel>
     </TabItem>
 </TabControl>

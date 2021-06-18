@@ -7,36 +7,41 @@ namespace AutoProtocol.EventMVVM
 {
     class EventDataLoader
     {
-        private Event _event;
+        public static readonly string FILE_EXTENSION = ".apd";
+        private const char META_CHAR = '%';
+        private const string META_KEY_POINT_ID = "POINT_ID";
+        private const char KEY_VALUE_DELIMITER = '=';
+        private const char VALUES_DELIMITER = ';';
 
-        public EventDataLoader(Event eventObject, String fileName)
+        public static void Load(Event targetEvent, String fileName)
         {
-            _event = eventObject;
             int pointId = 0;
             using (var streamReader = new StreamReader(File.OpenRead(fileName)))
             {
                 while (!streamReader.EndOfStream)
                 {
                     var line = streamReader.ReadLine();
-                    if (line.Contains('%'))
+                    if (line.Contains(META_CHAR))
                     {
                         do
                         {
                             line = streamReader.ReadLine();
-                            if (line.Contains("POINT_ID"))
+                            if (line.Contains(META_KEY_POINT_ID))
                             {
-                                pointId = Int32.Parse(line.Substring(line.IndexOf("=") + 1));
+                                pointId = Int32.Parse(line.Substring(line.IndexOf(KEY_VALUE_DELIMITER) + 1));
                             }
-                        } while (!line.Contains('%'));
+                        } while (!line.Contains(META_CHAR));
 
                         continue;
                     }
 
-                    int delimIndex = line.IndexOf('=');
+                    if (pointId == 0) throw new NullReferenceException("null pointId");
+
+                    int delimIndex = line.IndexOf(KEY_VALUE_DELIMITER);
                     int id = Int32.Parse(line.Substring(0, delimIndex));
-                    string[] times = line.Substring(delimIndex + 1).Split(';', StringSplitOptions.RemoveEmptyEntries);
+                    string[] times = line.Substring(delimIndex + 1).Split(VALUES_DELIMITER, StringSplitOptions.RemoveEmptyEntries);
                     Participant targetParticipant = null;
-                    foreach (Participant participant in _event.Participants)
+                    foreach (Participant participant in targetEvent.Participants)
                     {
                         if (participant.Id == id)
                         {
@@ -44,6 +49,8 @@ namespace AutoProtocol.EventMVVM
                             break;
                         }
                     }
+
+                    if (targetParticipant == null) continue;
 
                     ParticipantTime targetParticipantTime = null;
                     foreach (ParticipantTime participantTime in targetParticipant.ParticipantTimes)
@@ -54,7 +61,9 @@ namespace AutoProtocol.EventMVVM
                         }
                     }
 
-                    int bound = times.Length > _event.LapsCount ? _event.LapsCount : times.Length;
+                    if (targetParticipantTime == null) continue;
+
+                    int bound = times.Length > targetEvent.LapsCount ? targetEvent.LapsCount : times.Length;
                     for (int i = 0; i < bound; ++i)
                     {
                         targetParticipantTime.Times[i].RawValue = long.Parse(times[i]);

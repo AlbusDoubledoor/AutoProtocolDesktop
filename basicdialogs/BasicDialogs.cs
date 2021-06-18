@@ -32,7 +32,8 @@ namespace AutoProtocol
 
         public static bool Confirm(string confirmation)
         {
-            MessageBoxResult confirmResult = MessageBox.Show(confirmation, "Confirmation", MessageBoxButton.YesNo);
+            string confirmationCaption = Application.Current.FindResource(R.DLG_TITLE__CONFIRMATION).ToString();
+            MessageBoxResult confirmResult = MessageBox.Show(confirmation, confirmationCaption, MessageBoxButton.YesNo);
             return (confirmResult == MessageBoxResult.Yes);
         }
     }

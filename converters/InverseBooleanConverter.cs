@@ -5,6 +5,9 @@ using System.Windows.Data;
 
 namespace AutoProtocol.Converters
 {
+    /*
+     * Конвертер, инвертирующий булевое свойство (например, для использования с атрибутом IsDisabled в представлении)
+     */
     [ValueConversion(typeof(bool), typeof(bool))]
     public class InverseBooleanConverter : IValueConverter
     {

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 
 namespace AutoProtocol.EventMVVM
 {
+    /*
+     * Модель события
+     */
     [Serializable]
     class Event : INotifyPropertyChanged
     {

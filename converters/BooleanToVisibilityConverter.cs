@@ -6,6 +6,9 @@ using System.Windows.Data;
 
 namespace AutoProtocol.Converters
 {
+    /*
+     * Конвертер из булевого свойства в объект класса Visibility
+     */
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public class BooleanToVisibilityConverter : IValueConverter
     {

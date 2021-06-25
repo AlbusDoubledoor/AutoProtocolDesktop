@@ -6,6 +6,9 @@ using System.Windows.Data;
 
 namespace AutoProtocol.Converters
 {
+    /*
+     * Конвертер из числового свойства в строку. Если обратное преобразование из строки не удалось, то возвращается 0
+     */
     [ValueConversion(typeof(int), typeof(string))]
     public class IntToStringConverter : IValueConverter
     {

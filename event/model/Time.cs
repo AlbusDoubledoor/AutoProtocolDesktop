@@ -6,9 +6,13 @@ using System.Text;
 
 namespace AutoProtocol.EventMVVM
 {
+    /*
+     * Модель метки времени
+     */
     [Serializable]
     class Time : INotifyPropertyChanged
     {
+        private int _pointCount = 1;
         public static readonly string TIME_PATTERN = "HH:mm:ss.fff";
 
         private long _rawValue = 0;
@@ -17,7 +21,7 @@ namespace AutoProtocol.EventMVVM
             get => _rawValue;
             set
             {
-                _rawValue = value;
+                _rawValue = (_rawValue + value) / _pointCount++;
                 StringValue = new DateTime(value*10000L).ToString(TIME_PATTERN);
                 OnPropertyChanged();
             }
@@ -45,6 +49,7 @@ namespace AutoProtocol.EventMVVM
         public Time()
         {
             RawValue = 0;
+            _pointCount = 1;
         }
 
         [field: NonSerialized]

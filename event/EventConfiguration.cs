@@ -5,6 +5,9 @@ using System.IO;
 
 namespace AutoProtocol.EventMVVM
 {
+    /*
+     * Класс для сохранения и загрузки конфигураций событий с помощью файлов
+     */
     class EventConfiguration : IDisposable
     {
         private Event _event;

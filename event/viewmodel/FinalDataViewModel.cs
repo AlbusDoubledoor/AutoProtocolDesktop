@@ -6,6 +6,10 @@ using System.Windows;
 
 namespace AutoProtocol.EventMVVM
 {
+    /*
+     * Модель представления финальных данных для отображения
+     * Каждый экземпляр представляет собой один круг
+     */
     class FinalDataViewModel : INotifyPropertyChanged
     {
         private int _index;

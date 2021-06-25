@@ -15,6 +15,9 @@ using System.Text.RegularExpressions;
 
 namespace AutoProtocol.EventMVVM
 {
+    /*
+     * Модель представления события
+     */
     class EventViewModel : INotifyPropertyChanged, IErrorActionConsumer, IFileExportProvidable, IFileImportProvidable, IConfirmProvidable
     {
         private Event _event;
@@ -23,6 +26,9 @@ namespace AutoProtocol.EventMVVM
         public ObservableCollection<Participant> Participants { get; set; }
         public ObservableCollection<CheckPoint> CheckPoints { get; set; }
 
+        /*
+         * Реализация интерфейса IErrorActionConsumer. Вызывается заданное представлением действие
+         */
         public Action<string> ErrorAction { get; set; }
         public void DoErrorAction(string errorMessage)
         {
@@ -32,6 +38,9 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /*
+         * Реализация интерфейса IFileExportProvidable. Вызывается заданное представлением действие
+         */
         public Func<string, string> ProvideFileExport { get; set; }
         public string RequestFileExport(string filter)
         {
@@ -42,6 +51,9 @@ namespace AutoProtocol.EventMVVM
             return "";
         }
 
+        /*
+         * Реализация интерфейса IFileImportProvidable. Вызывается заданное представлением действие
+         */
         public Func<string, string> ProvideFileImport { get; set; }
         public string RequestFileImport(string filter)
         {
@@ -52,6 +64,9 @@ namespace AutoProtocol.EventMVVM
             return "";
         }
 
+        /*
+         * Реализация интерфейса IConfirmProvidable. Вызывается заданное представлением действие
+         */
         public Func<string, bool> ProvideConfirm { get; set; }
         public bool RequestConfirm(string confirmation)
         {
@@ -62,6 +77,9 @@ namespace AutoProtocol.EventMVVM
             return false;
         }
 
+        /*
+         * Хранение выбранного в представлении участника
+         */
         public Participant SelectedParticipant
         {
             get => _selectedParticipant;
@@ -72,6 +90,9 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /*
+         * Хранение выбранной в представлении контрольной точки
+         */
         public CheckPoint SelectedCheckPoint
         {
             get => _selectedCheckPoint;
@@ -82,12 +103,16 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /*
+         * Основная обертка над моделью события
+         */
         public Event Event
         {
             get { return _event; }
             set
             {
                 _event = value;
+                /* Перепривязка участников из модели */
                 Participants = new ObservableCollection<Participant>(_event.Participants);
                 Participants.CollectionChanged += (sender, e) =>
                 {
@@ -98,11 +123,13 @@ namespace AutoProtocol.EventMVVM
                         _event.Participants.Add(participant);
                     }
                 };
+                /* Установка первого участника выбранным */
                 if (Participants.Count > 0)
                 {
                     SelectedParticipant = Participants[0];
                 }
 
+                /* Перепривязка контрольных точек из модели */
                 CheckPoints = new ObservableCollection<CheckPoint>(_event.CheckPoints);
                 CheckPoints.CollectionChanged += (sender, e) =>
                 {
@@ -113,11 +140,13 @@ namespace AutoProtocol.EventMVVM
                         _event.CheckPoints.Add(checkPoint);
                     }
                 };
+                /* Установка первой контрольной точки выбранной */
                 if (CheckPoints.Count > 0)
                 {
                     SelectedCheckPoint = CheckPoints[0];
                 }
 
+                /* Восстановление свойства применении конфигурации события, подготовка финальных данных для отображения */
                 FinalData.Clear();
                 IsConfigurationApplied = _event.IsStaged;
                 if (IsConfigurationApplied)
@@ -181,6 +210,9 @@ namespace AutoProtocol.EventMVVM
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /*
+         * Команда добавления нового участника
+         */
         private RelayCommand _addParticipantCommand;
         public RelayCommand AddParticipantCommand
         {
@@ -195,7 +227,9 @@ namespace AutoProtocol.EventMVVM
                   }));
             }
         }
-
+        /*
+         * Команда добавления новой контрольной точки
+         */
         private RelayCommand _addCheckPointCommand;
         public RelayCommand AddCheckPointCommand
         {
@@ -211,6 +245,9 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /*
+         * Команда удаления выбранного участника
+         */
         private RelayCommand _deleteParticipantCommand;
         public RelayCommand DeleteParticipantCommand
         {
@@ -236,6 +273,9 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /*
+         * Команда удаления выбранной контрольной точки
+         */
         private RelayCommand _deleteCheckPointCommand;
         public RelayCommand DeleteCheckPointCommand
         {
@@ -261,6 +301,9 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /*
+         * Команда выгрузки файла конфигурации события
+         */
         private RelayCommand _exportConfigurationCommand;
         public RelayCommand ExportConfigurationCommand
         {
@@ -293,6 +336,9 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /*
+         * Команда загрузки конфигурации события из файла
+         */
         private RelayCommand _importConfigurationCommand;
         public RelayCommand ImportConfigurationCommand
         {
@@ -347,6 +393,9 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /*
+         * Заполнение финальных данных для отображения из модели представления
+         */
         private void FillFinalData()
         {
             for (int i = 1; i <= LapsCount; ++i)
@@ -356,6 +405,9 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /*
+         * Команда применения текущей конфигурации события
+         */
         private RelayCommand _applyConfigurationCommand;
         public RelayCommand ApplyConfigurationCommand
         {
@@ -388,6 +440,9 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /*
+         * Команда сброса текущей конфигурации события
+         */
         private RelayCommand _resetConfigurationCommand;
         public RelayCommand ResetConfigurationCommand
         {
@@ -410,6 +465,9 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /*
+         * Команда импорта файла данных по событию
+         */
         private RelayCommand _loadDataCommand;
         public RelayCommand LoadDataCommand
         {
@@ -442,6 +500,9 @@ namespace AutoProtocol.EventMVVM
         private const string WEBKIT_PATH = "qtbin/";
         private const string BASIC_DOC_URL = "autoprotocol.doc";
 
+        /*
+         * Команда выгрузки итогового протокола
+         */
         private RelayCommand _exportProtocolCommand;
         public RelayCommand ExportProtocolCommand
         {
@@ -454,13 +515,14 @@ namespace AutoProtocol.EventMVVM
                         {
                             if (htmlConverter == null)
                             {
+                                /* Установка преобразователя HTML -> PDF с использованием системы WebKit */
                                 htmlConverter = new HtmlToPdfConverter(HtmlRenderingEngine.WebKit);
                                 WebKitConverterSettings settings = new WebKitConverterSettings();
                                 settings.WebKitPath = WEBKIT_PATH;
                                 htmlConverter.ConverterSettings = settings;
                             }
 
-
+                            // Запрос имени файла
                             string localizedFilter = Application.Current.FindResource(R.FILE_FILTER__PROTOCOL).ToString();
                             string fileName = RequestFileExport($"{localizedFilter} (*.pdf)|*.pdf");
 
@@ -468,13 +530,14 @@ namespace AutoProtocol.EventMVVM
 
                             StringBuilder overAllBuilder = new StringBuilder(HTMLTemplate);
 
+                            // Замена скалярных ссылок
                             overAllBuilder.Replace("{timestamp}", DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss"));
                             overAllBuilder.Replace("{event_name}", Event.Name);
                             overAllBuilder.Replace("{laps_count}", Event.LapsCount.ToString());
                             overAllBuilder.Replace("{check_points_count}", Event.MaxCheckPoint.ToString());
                             overAllBuilder.Replace("{participants_count}", Event.MaxParticipant.ToString());
 
-
+                            // Обработка шаблона участника
                             StringBuilder templatedCollectionBuilder = new StringBuilder();
                             Regex template = new Regex(@"\{ParticipantTemplate\}(?<inner>(.|\n)+?)\{/ParticipantTemplate\}");
                             MatchCollection templateCollections = template.Matches(overAllBuilder.ToString());
@@ -494,6 +557,7 @@ namespace AutoProtocol.EventMVVM
                                 templatedCollectionBuilder.Clear();
                             }
 
+                            // Обработка шаблона контрольной точки
                             template = new Regex(@"\{CheckPointTemplate\}(?<inner>(.|\n)+?)\{/CheckPointTemplate\}");
                             templateCollections = template.Matches(overAllBuilder.ToString());
                             foreach (Match match in templateCollections)
@@ -510,6 +574,7 @@ namespace AutoProtocol.EventMVVM
                                 templatedCollectionBuilder.Clear();
                             }
 
+                            // Обработка шаблона круга
                             template = new Regex(@"\{LapTemplate\}(?<inner>(.|\n)+?)\{/LapTemplate\}");
                             templateCollections = template.Matches(overAllBuilder.ToString());
                             foreach (Match match in templateCollections)
@@ -524,6 +589,7 @@ namespace AutoProtocol.EventMVVM
                                 templatedCollectionBuilder.Clear();
                             }
 
+                            // Обработка шаблона метки времени
                             template = new Regex(@"\{TimeTemplate Bind=(?<bind>(.|\n)+?)\}(?<inner>(.|\n)+?)\{/TimeTemplate\}");
                             templateCollections = template.Matches(overAllBuilder.ToString());
                             Regex bindRegex = new Regex(@"(\[Lap=(?<lap>(.|\n)+?)\])?(\[Participant=(?<participant>(.|\n)+?)\])?(\[CheckPoint=(?<checkpoint>(.|\n)+?)\])?");
@@ -566,6 +632,7 @@ namespace AutoProtocol.EventMVVM
                                 templatedCollectionBuilder.Clear();
                             }
 
+                            // Замена ссылки на место для подписи
                             overAllBuilder.Replace("{signature}", $"<u>{"".PadRight(15, '\0').Replace("\0", "&nbsp;")}</u>");
 
                             PdfDocument document = htmlConverter.Convert(overAllBuilder.ToString(), BASIC_DOC_URL);
@@ -587,6 +654,9 @@ namespace AutoProtocol.EventMVVM
 
         private const string STANDARD_TEMPLATE_FILE_NAME = "standard_template.html";
 
+        /*
+         * Команда импорта стандартного шаблона протокола
+         */
         private RelayCommand _importStandardTemplateCommand;
         public RelayCommand ImportStandardTemplateCommand
         {
@@ -611,6 +681,9 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /*
+         * Команда импорта любого шаблона протокола
+         */
         private RelayCommand _importTemplateCommand;
         public RelayCommand ImportTemplateCommand
         {
@@ -642,6 +715,9 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /*
+         * Команда выгрузки текущего шаблона протокола
+         */
         private RelayCommand _exportTemplateCommand;
         public RelayCommand ExportTemplateCommand
         {
@@ -675,6 +751,9 @@ namespace AutoProtocol.EventMVVM
 
         private const string TEMPLATE_HELP_FILE = "template_help.pdf";
 
+        /*
+         * Команда вызова справки по шаблону
+         */
         private RelayCommand _templateHelpCommand;
         public RelayCommand TemplateHelpCommand
         {
@@ -714,6 +793,12 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /* 
+         * Сохранение текущего события на диск
+         * 
+         * @param savePath - имя файла для сохранения
+         * @return - флаг успешной операции сохранения
+         */
         public bool Save(String savePath)
         {
             try
@@ -731,6 +816,12 @@ namespace AutoProtocol.EventMVVM
             }
         }
 
+        /*
+         * Загрузка сохраненного события с диска
+         * 
+         * @param loadPath - имя файла для загрузки
+         * @return - флаг успешной загрузки операции
+         */
         public bool Load(String loadPath)
         {
             try

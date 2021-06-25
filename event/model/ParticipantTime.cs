@@ -7,6 +7,9 @@ using System.Text;
 
 namespace AutoProtocol.EventMVVM
 {
+    /*
+     * Модель метки времени участника
+     */
     [Serializable]
     class ParticipantTime : INotifyPropertyChanged
     {

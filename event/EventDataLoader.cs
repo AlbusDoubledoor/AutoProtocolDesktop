@@ -5,6 +5,9 @@ using System.Text;
 
 namespace AutoProtocol.EventMVVM
 {
+    /*
+     * Класс для загрузки файла данных по событию
+     */
     class EventDataLoader
     {
         public static readonly string FILE_EXTENSION = ".apd";

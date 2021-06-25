@@ -6,6 +6,9 @@ using System.Text;
 
 namespace AutoProtocol.EventMVVM
 {
+    /*
+     * Модель Контрольной точки
+     */
     [Serializable]
     class CheckPoint : INotifyPropertyChanged
     {

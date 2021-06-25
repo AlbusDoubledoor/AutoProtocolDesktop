@@ -6,6 +6,9 @@ using System.Text;
 
 namespace AutoProtocol.EventMVVM
 {
+    /*
+     * Модель участника
+     */
     [Serializable]
     class Participant : INotifyPropertyChanged
     {
